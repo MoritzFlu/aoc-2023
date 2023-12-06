@@ -7,7 +7,15 @@ struct Analyzer {
 }
 
 impl Analyzer {
-    
+    const SYMBOLS : [&str; 2] = ["*", "&"];
+
+    pub fn new(lines: Vec<Vec<u8>>) -> Analyzer {
+        Analyzer { lines: lines }
+    }
+
+    pub fn get_sum(&self) -> i32 {
+        0
+    }
 }
 
 fn main() {
@@ -22,16 +30,16 @@ fn main() {
             // counts numer of rows i;n lines
             i = i + 1;
         } else {
-            // x number of lines reached
+            // 4 lines stored, remove oldest
             lines.remove(0);
         }
 
         // add new line to vector
         lines.push(bytes.to_vec());
 
+        // There are already 3 lines stored, begin object creation
         if i == 3 {
-
-            let obj = 
+            let obj = Analyzer::new(lines.clone());
         }
 
     }
