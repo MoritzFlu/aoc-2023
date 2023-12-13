@@ -7,14 +7,54 @@ struct Analyzer {
 }
 
 impl Analyzer {
-    const SYMBOLS : [&str; 2] = ["*", "&"];
+    const look_pattern: [[i8; 2];8] = [
+        [0,-1],// upper left 
+        [0,0], // upper mid
+        [0,1], // upper reight
+        [2,-1], // lower left
+        [2,0],  // lower mid
+        [2,1],  // lower right
+        [0,-1], // left 
+        [0,1]   // right
+        ];
 
     pub fn new(lines: Vec<Vec<u8>>) -> Analyzer {
         Analyzer { lines: lines }
     }
 
     pub fn get_sum(&self) -> i32 {
+
+        let num: String;
+
+        let mut found_symbol = false;
+
+        for i in 0..self.lines[1].len() {
+
+            let c = self.lines[1][i] as char;
+
+            if !found_symbol {
+                for patt in Analyzer::look_pattern {
+                    let j = patt[0] as usize;
+                    let k = (i as i8) + patt[1];
+                    if  k > 0 {
+                        // select adjacent char
+                        let check_symbol = self.lines[j][k as usize] as char;
+
+                        if Analyzer::is_symbol(check_symbol) {
+                            found_symbol = true;
+                        }
+                    }
+                    
+                }
+            }
+        }
         0
+    }
+
+    fn is_symbol(input: char) -> bool {
+        if input.is_digit(10) {return false}
+        if input == '.' {return false}
+        true
     }
 }
 
